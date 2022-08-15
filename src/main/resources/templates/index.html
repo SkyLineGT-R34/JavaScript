@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>ADMIN PANEL</title>
+
+    <script>
+
+    </script>
+
+</head>
+
+
+<body>
+<div class="container-fluid">
+    <!--Заголовок-->
+    <div class="row bg-dark vh-5">
+        <nav class="navbar navbar-dark">
+            <div class="navbar-header" id="nav_header">
+                <text class="navbar-brand font-weight-bold h1" id="header_name"></text>
+                <text class="text-white">with roles:</text>
+                <text class="text-white">
+                    <span id="header_roles">
+                    </span>
+                </text>
+            </div>
+            <a class="text-white" href="/logout">Logout</a>
+        </nav>
+    </div>
+</div>
+<!--Конец заголовка-->
+
+<!--ТЕЛО-->
+
+<div class="row">
+
+    <div class="d-flex align-items-start">
+        <!--ЛЕВЫЙ СТОЛБЕЦ С МЕНЮ НАЧАЛО-->
+        <div class="col-sm-2 col-xxl-1 pt-3 vh-100"><!--цвет фона, отступы-->
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                 aria-orientation="vertical">
+                <a sec:authorize="hasRole('ADMIN')" class="nav-link" id="v-pills-home-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
+                        aria-selected="false"><h5 align="left">Admin</h5>
+                </a>
+                <a sec:authorize="hasAnyRole('USER')" class="nav-link active" id="v-pills-profile-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#v-pills-profile" type="button" role="tab"
+                        aria-controls="v-pills-profile"
+                        aria-selected="true"><h5 align="left">User</h5>
+                </a>
+            </div>
+        </div>
+        <!--ЛЕВЫЙ СТОЛБЕЦ С МЕНЮ КОНЕЦ-->
+
+        <!--ПРАВЫЙ СТОЛБЕЦ С ИНФО НАЧАЛО-->
+
+        <div class="col-sm-10 col-xxl-11 bg-light pl-3 pt-3 vh-100">
+            <div class="container-fluid">
+                <div class="tab-content" id="v-pills-tabContent">
+
+                    <!-- АДМИН-КОНТЕЙНЕР ПРАВОГО БЛОКА БЛОКА-->
+                    <div sec:authorize="hasRole('ADMIN')" class="tab-pane fade" id="v-pills-home" role="tabpanel"
+                         aria-labelledby="v-pills-home-tab">
+                        <div class="row h1">
+                            Admin panel
+                        </div>
+
+                        <!-- Вкладки навигации Admin panel-->
+                        <div class="row">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="user_table" data-toggle="tab" href="#nav-home">Users
+                                        table</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#nav-new">New User</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Вкладки навигации Admin panel-->
+
+                        <!-- Контент вкладок-->
+                        <div class="row">
+                            <div class="tab-content border" id="nav-tabContent">
+                                <!-- Вкладка Users table-->
+                                <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                     aria-labelledby="nav-home-tab">
+                                    <div class="row">
+                                        <span class="d-block bg-white border-bottom">
+                                            <h4 class="m-2">All users</h4>
+                                        </span>
+                                    </div>
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">#ID</th>
+                                            <th scope="col">Firstname</th>
+                                            <th scope="col">Lastname</th>
+                                            <th scope="col">Age</th>
+                                            <th scope="col">E-Mail</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Edit</th>
+                                            <th scope="col">Delete</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="all_users_table">
+                                        <!--Генерация таблицы пользователей-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--Вкладка Users table КОНЕЦ-->
+
+                                <!--Вкладка New User-->
+                                <div class="tab-pane fade" id="nav-new" role="tabpanel" aria-labelledby="nav-new-tab">
+                                    <div class="row">
+                                        <span class="d-block bg-white border-bottom">
+                                            <h4 class="m-2">Add new user</h4>
+                                        </span>
+                                    </div>
+                                    <div class="container-fluid d-flex h-100 justify-content-center align-items-center p-0 bg-white pr-1 pt-4">
+                                        <div class="row pt-1 pr-0">
+                                            <div class="col-md-12 pr-0 pt-0 pl-0"
+                                                 style="overflow: auto; overflow-y: hidden;">
+                                                <div class="form-group">
+                                                    <p class="m-0 text-center">First name</p>
+                                                    <input field="" class="form-control" id="firstname"
+                                                           required="required" placeholder="Enter name">
+                                                </div>
+                                                <div class="form-group">
+                                                    <p class="m-0 text-center">Last name</p>
+                                                    <input field="" class="form-control" id="lastname"
+                                                           required="required" placeholder="Enter lastname">
+                                                </div>
+                                                <div class="form-group">
+                                                    <p class="m-0 text-center">Age</p>
+                                                    <input field="" type="number" class="form-control"
+                                                           id="age" required="required" placeholder="Enter age">
+                                                </div>
+                                                <div class="form-group">
+                                                    <p class="m-0 text-center">Email</p>
+                                                    <input type="email" field="" class="form-control" id="email"
+                                                           required="required" placeholder="Enter email">
+                                                </div>
+                                                <div class="form-group">
+                                                    <p class="m-0 text-center">Password</p>
+                                                    <input field="" class="form-control" id="password"
+                                                           required="required" placeholder="Enter password">
+                                                </div>
+                                                <div class="form-group">
+                                                    <p class="m-0 text-center">Role</p>
+                                                    <select multiple class="form-control" size="2" id="new_roles"
+                                                            required="required" placeholder="Choose Role"
+                                                            name="roles">
+                                                        <option value="ROLE_ADMIN">ADMIN
+                                                        </option>
+                                                        <option selected value="ROLE_USER">USER
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                </br>
+                                                <div class="text-center pb-3 ">
+                                                    <button class="btn btn-success" onclick="sendUser('new')">Add user
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Конец контента вкладок АДМИНА-->
+
+                    </div>
+                    <!--АДМИН-КОНТЕЙНЕР ПРАВОГО БЛОКА КОНЕЦ-->
+
+                    <!--ЮЗЕР-КОНТЕЙНЕР ПРАВОГО БЛОКА БЛОКА-->
+                    <div class="tab-pane fade active show" id="v-pills-profile" role="tabpanel"
+                         aria-labelledby="v-pills-profile-tab">
+                        <div class="row h1">
+                            User information-page
+                        </div>
+                        <div class="row">
+                            <div class="tab-content border">
+                                <!--User info-->
+                                <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="nav-home-tab">
+                                    <div class="row">
+                                        <span class="d-block bg-light border">
+                                            <h4>User info</h4>
+                                        </span>
+                                    </div>
+                                    <!--Таблица-->
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">#ID</th>
+                                            <th scope="col">Firstname</th>
+                                            <th scope="col">Lastname</th>
+                                            <th scope="col">Age</th>
+                                            <th scope="col">E-Mail</th>
+                                            <th scope="col">Role</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="principal_table">
+                                        <!--Генерация данных пользователя-->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--ЮЗЕР-КОНТЕЙНЕР ПРАВОГО БЛОКА КОНЕЦ-->
+                </div>
+            </div>
+            <!--ПРАВЫЙ СТОЛБЕЦ ИНФО КОНЕЦ-->
+        </div>
+
+    </div>
+    <!--ТЕЛО КОНЕЦ-->
+</div>
+
+<!--Модальные окна EDIT и DELETE-->
+<div sec:authorize="hasRole('ADMIN')">
+    <div id="modal-edit" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit user</h5>
+                    <button type="button" class="close" data-dismiss="model">x</button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid d-flex h-100 justify-content-center align-items-center p-5">
+                        <div class="row bg-white" style="width: 300px;">
+                            <div class="col rounded p-0">
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>ID</b></p>
+                                    <input type="number" class="form-control" id="id_edit"
+                                           disabled="disabled" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>First name</b></p>
+                                    <input class="form-control" id="firstname_edit"
+                                           required="required" placeholder="Enter name">
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>Lastname</b></p>
+                                    <input class="form-control" id="lastname_edit"
+                                           required="required" placeholder="Enter lastname">
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>Lastname</b></p>
+                                    <input type="number" class="form-control" id="age_edit"
+                                           required="required" placeholder="Enter age">
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>Email</b></p>
+                                    <input type="email" class="form-control" id="email_edit"
+                                           required="required" placeholder="Enter email">
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>Password</b></p>
+                                    <input type="password" class="form-control password-control" id="password_edit"
+                                           required="required" placeholder="Enter password">
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center">Role</p>
+                                    <select multiple class="form-control" size="2" id="roles_edit"
+                                            required="required" placeholder="Choose Role"
+                                            name="roles">
+                                        <option value="ROLE_ADMIN">ADMIN
+                                        </option>
+                                        <option value="ROLE_USER">USER
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="close" class="btn btn-secondary " data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary " id="EditButton" onclick="sendUser('edit')"
+                            data-dismiss="modal">
+                        Edit
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-delete" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delete user</h5>
+                    <button type="button" class="close" data-dismiss="model">x</button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid d-flex h-100 justify-content-center align-items-center p-5">
+                        <div class="row bg-white" style="width: 300px;">
+                            <div class="col rounded p-0">
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>ID</b></p>
+                                    <input type="number" class="form-control" id="id_delete" placeholder="ID"
+                                           disabled="disabled">
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>First name</b></p>
+                                    <input class="form-control" id="firstname_delete" disabled="disabled">
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>Last name</b></p>
+                                    <input class="form-control" id="lastname_delete" disabled="disabled">
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>Age</b></p>
+                                    <input class="form-control" type="number" id="age_delete" disabled="disabled">
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>Email</b></p>
+                                    <input type="email" class="form-control" id="email_delete" disabled="disabled">
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center"><b>Password</b></p>
+                                    <input type="password" class="form-control" id="password_delete"
+                                           disabled="disabled">
+                                </div>
+                                <div class="form-group">
+                                    <p class="m-0 text-center">Role</p>
+                                    <select multiple class="form-control" size="2" id="roles_delete"
+                                            required="required" placeholder="Choose Role"
+                                            name="roles" disabled="disabled">
+                                        <option value="ROLE_ADMIN">ADMIN
+                                        </option>
+                                        <option value="ROLE_USER">USER
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="DeleteButton" onclick="deleteUser()">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Модальные окна EDIT и DELETE КОНЕЦ-->
+
+<script>
+    //Авторизованный пользователь
+    let obj_principal;
+    get_principal();
+
+    function getStringRolesOfUser(roles) {
+        let string_roles = '';
+        for (let role of roles) {
+            string_roles += (role.role + ' ').replace('ROLE_', '');
+        }
+        return string_roles;
+    }
+    async function get_principal_table() {
+        let gen_html = '';
+        gen_html += '<tr>';
+        gen_html += '<th>' + obj_principal.id + '</th>';
+        gen_html += '<th>' + obj_principal.firstname + '</th>';
+        gen_html += '<th>' + obj_principal.lastname + '</th>';
+        gen_html += '<th>' + obj_principal.age + '</th>';
+        gen_html += '<th>' + obj_principal.email + '</th>';
+        gen_html += '<th>' + getStringRolesOfUser(obj_principal.roles) + '</th>';
+        gen_html += '</tr>';
+        html_principal_table.innerHTML = gen_html;
+    }
+
+    async function get_principal() {
+        let result = await fetch('/api/principal');
+        if (result.ok) {
+            obj_principal = await result.json();
+            await get_principal_table();
+            document.getElementById('header_name').innerText = obj_principal.email;
+            document.getElementById('header_roles').innerText = getStringRolesOfUser(obj_principal.roles);
+        } else console.log('Пизда принципалу');
+    }
+    let html_principal_table = document.getElementById('principal_table');
+
+
+</script>
+
+<script sec:authorize="hasRole('ADMIN')">
+    //Список ролей
+    let obj_all_roles;
+    //Список всех пользователей
+    let obj_all_users_list;
+    //Временный пользователь
+    let obj_temp_user;
+    // связка HTML и генерируемых блоков
+    let html_all_users_table = document.getElementById('all_users_table');
+
+    get_all_roles();
+    get_all_users_list();
+
+    async function get_all_roles() {
+        let result = await fetch('/api/roles');
+        if (result.ok) {
+            obj_all_roles = await result.json();
+        } else console.log('Пизда ролям');
+    }
+
+    async function get_all_users_list() {
+        let result = await fetch('/api/users');
+        if (result.ok) {
+            obj_all_users_list = await result.json();
+            await get_all_users_table();
+        } else console.log('Пизда таблице');
+    }
+
+    async function get_new_user() {
+        let result = await fetch('/api/new');
+        if (result.ok) {
+            obj_temp_user = await result.json();
+        } else console.log('Пизда новому юзеру');
+    }
+
+    function getStringRolesOfUser(roles) {
+        let string_roles = '';
+        for (let role of roles) {
+            string_roles += (role.role + ' ').replace('ROLE_', '');
+        }
+        return string_roles;
+    }
+
+    async function sendUser(mode) {
+        let selectRoles;
+        if (mode === 'new') {
+            await get_new_user();
+            let new_user_fields = ["firstname", "lastname", "email", "password"];
+            for (let field of new_user_fields) {
+                obj_temp_user[field] = document.getElementById(field).value;
+            }
+            obj_temp_user.age = parseInt(document.getElementById('age').value, 0);
+            selectRoles = $("select#new_roles").val();
+        } else {
+            let user_fields = ["firstname", "lastname", "email", "password", "age", "id"];
+            for (let field of user_fields) {
+                obj_temp_user[field] = document.getElementById(field + '_' + mode).value;
+            }
+            selectRoles = $("select#roles_edit").val()
+            obj_temp_user.authorities = [];
+        }
+        obj_temp_user.roles = [];
+        for (let i = 0; i < obj_all_roles.length; i++) {
+            for (let selectRole of selectRoles) {
+                if (obj_all_roles[i].role == selectRole) {
+                    obj_temp_user.roles.push(obj_all_roles[i]);
+                }
+            }
+        }
+        obj_temp_user.username = obj_temp_user.email;
+        await fetch('/api/save', {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json;charset=utf-8'},
+            body: JSON.stringify(obj_temp_user)
+        });
+        await get_all_users_list();
+        document.getElementById('user_table').click();
+    }
+
+    async function deleteUser() {
+        await fetch('/api/delete/' + obj_temp_user.id, {method: 'DELETE'});
+        await get_all_users_list();
+        document.getElementById('user_table').click();
+    }
+
+    function viewModal(id, mode) {
+        for (let i = 0; i < obj_all_users_list.length; i++) {
+            if (obj_all_users_list[i].id == id) {
+                obj_temp_user = obj_all_users_list[i];
+            }
+        }
+        let user_fields = ["firstname", "lastname", "email", "password", "age", "id"];
+        for (let field of user_fields) {
+            console.log(document.getElementById(field + '_' + mode).value)
+            document.getElementById(field + '_' + mode).value = obj_temp_user[field];
+        }
+        let selectRoles = document.getElementById('roles_edit').querySelectorAll('option');
+        for (let i = 0; i < selectRoles.length; i++) {
+            for (let user_role of obj_temp_user.roles) {
+                if (selectRoles[i].value === user_role.role) {
+                    selectRoles[i].selected = true;
+                }
+            }
+        }
+    }
+
+    async function get_all_users_table() {
+        let gen_html = '';
+        for (let resultElement of obj_all_users_list) {
+            gen_html += '<tr>';
+            gen_html += '<th>' + resultElement.id + '</th>';
+            gen_html += '<th>' + resultElement.firstname + '</th>';
+            gen_html += '<th>' + resultElement.lastname + '</th>';
+            gen_html += '<th>' + resultElement.age + '</th>';
+            gen_html += '<th>' + resultElement.email + '</th>';
+            gen_html += '<th>' + getStringRolesOfUser(resultElement.roles) + '</th>';
+            gen_html += '<th><button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-edit" onclick="viewModal(' + resultElement.id + ', \'edit\')">Edit</button></th>';
+            gen_html += '<th><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete" onclick="viewModal(' + resultElement.id + ', \'delete\')">Delete</button></th>';
+            gen_html += '</tr>';
+        }
+        html_all_users_table.innerHTML = gen_html;
+    }
+
+    document.getElementById('v-pills-home-tab').click();
+</script>
+
+
+</body>
+</html>
